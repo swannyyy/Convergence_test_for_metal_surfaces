@@ -39,6 +39,6 @@ Open then the .bashrc file and add the following lines just after the export PAT
     export PYTHONPATH=/.local/bin/ase:$PYTHONPATH
     export PATH=/.local/bin/ase:$PATH
     export ASE_VASP_COMMAND="qsub VASP_vtst.pbs"
-    export VASP_PP_PATH=/srv/scratch/z5343466/PBEpotentials_VASP
+    export VASP_PP_PATH=/srv/scratch/YOUR_zID/PBEpotentials_VASP
     export SYS_VASP=system
 
