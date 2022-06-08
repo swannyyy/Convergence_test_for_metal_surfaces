@@ -26,5 +26,19 @@ Once you are sure of the modification you have made and you have tested them you
     git pull
     git commit 
     git push -a 
+    
+## How to work with ASE package on katana 
+First of all ASE is not a standard package so you won't find it preinstalled on katana, this means that you will need to install it if you want to perform tests and eventually run the script.
+In order to istall it you will need to execute the following command no matter where in katana:
 
+    pip install --upgrade --user ase
+
+After you got the package installed you will need to modify some enviromental variable so that VASP can be executed inside the python environment.
+Open then the .bashrc file and add the following lines just after the export PATH line:
+  
+    export PYTHONPATH=/.local/bin/ase:$PYTHONPATH
+    export PATH=/.local/bin/ase:$PATH
+    export ASE_VASP_COMMAND="qsub VASP_vtst.pbs"
+    export VASP_PP_PATH=/srv/scratch/z5343466/PBEpotentials_VASP
+    export SYS_VASP=system
 
