@@ -15,7 +15,7 @@ import os
 import shutil
 import time
 
-
+#The following function defines all the parameters for the geometry optimisation of a bulk metal
 # In[ ]:
 def bulkopt(system):
 	calculator = Vasp(istart=0,
@@ -51,6 +51,7 @@ def bulkopt(system):
 		system.get_total_energy()
 	except:
 		print()
+#The following function defines all the parameters for the optimisation of a slab
 def slabopt(system):
 	try:
 		calculator = Vasp(istart=0,
@@ -89,12 +90,8 @@ def slabopt(system):
 		print('ERROR: Calculation running correctly only in: ',vasp_dir,'Check the calculation settings in the script please!')
 # In[3]:
 
-
+#This function has been adapted from a script to freez the atoms below a certain cutoff and shift all the atoms at the bottom of the cell since they are put in the center as default by ase.
 def freezeatoms(cutoff):
-    # !/usr/bin/python2
-
-    # Run this code by typing python2 FreezeAtoms.py [desired_z_cutoff]
-
     import sys
     import os
     import string
@@ -156,21 +153,34 @@ def freezeatoms(cutoff):
     outputfile = open(outputfilename, 'w')  # Write the POSCAR file for frequency calculations in the folder that has been generated
     outputfile.write(output)
     outputfile.close()
+#
+#START OF THE GEOMETRY BUILDING PART
+#
 
-# In[4]:
-if not os.path.exists('Ru_bulk'):
-        os.makedirs('Ru_bulk')
+if not os.path.exists('Ru_bulk'): #check if the directory for the bulk calc has already been created
+        os.makedirs('Ru_bulk')    #create directory
 shutil.copy('VASP_vtst.pbs', 'Ru_bulk/')
 os.chdir('Ru_bulk')
+
+#ENCUT AND KPOINTS ARE SET MANUALLY BUT THEY WILL BE READ FROM ENCUT AND KPOINT TESTS CODED BY XIAO SA
 eCut=400
 k1=12
 k2=12
 k3=7
+
+
 bulk_name= 'POSCAR'
-metal_bulk = bulk ('Ru','hcp',a=2.68102,b=4.24926)
-write_vasp(bulk_name, metal_bulk)
-bulkopt(metal_bulk)
-#time.sleep(180)
+metal_bulk = bulk ('Ru','hcp',a=2.68102,b=4.24926) #this command creates the geometry and saves it in a variable
+write_vasp(bulk_name, metal_bulk)     #write the POSCAR file 
+bulkopt(metal_bulk)                   #launch optimisation
+
+
+#CURRENTLY WE HAVE NO WAY TO CHECK IF THE CALC HAS FINISHED OR NOT SO THE PBS CHECK CODED BY AZZY SHOULD STAY HERE 
+#time.sleep(180)   #three minutes is pretty enough for this calc to finish but a proper check on the job would be better
+
+
+
+#analyse the final geometry and saves the geometrical parameters in a set of variables further used to build the slab
 cell_mat=metal_bulk.get_cell()
 a_vec=cell_mat[0]
 b_vec=cell_mat[1]
@@ -180,9 +190,9 @@ b_optBulk=b_vec[1]
 c_optBulk=c_vec[2]
 #print(c_optBulk)
 os.chdir('../')
-
-
-
+#
+#SLABS CREATION FOR SURFACE ENERGY CONVERGENCE 
+#
 limit =[3,4]
 eCut=400
 k1=2
