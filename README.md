@@ -10,9 +10,16 @@ So after you access katana go in a diractory that will contain the directory whe
     git clone https://github.com/swannyyy/Convergence_test_for_metal_surfaces NameDir
 
 Where NameDir is the name of a new directory that will be created that will contain all the shared files.
-Now go inside this new directory and type:
+Now go inside this new directory and type: (THIS PASSAGE IS PROBABLY UNNECESSARY) 
 
     git init
+
+It is pretty important at this point to set both your name and email in your local git directory using:
+    
+    git config --global user.name "Friedrich Nietzsche"  
+    git config --global user.email f.nietzsche@ubermensch.de
+
+Since you are not a dead german philosopher put your name and email instead :)
 
 Now your directory is fully set to work with the shared one in the cloud.
 Before updating the shared directory in the cloud you must be sure that your code is working since others will work on the same code afterwards, and fixing others bugs is difficult and annoying.
